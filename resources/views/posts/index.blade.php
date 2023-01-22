@@ -1,7 +1,9 @@
 @extends('layouts.app')
 @section('content')
 
-<h1 class="text-center m-5 border-bottom p-1">選手詳細</h1> 
+<img src="storage/images/background-gf23dc940b_1920.jpg" class="img-fluid" alt="...">
+
+<h1 class="text-center m-5 border-bottom p-1">あなたの選手カード</h1> 
 
 <div class="table table-bordered w-75 p-3 mx-auto m-5">
     <div class="row">
@@ -124,75 +126,49 @@
                             <p class="text-break">mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm</p>     
                 </div>
 
-                
-                
             </div>
     </div>
 </div>    
 
-
-
-<h1 class="text-center m-5 border-bottom p-1">投稿詳細</h1> 
-
-
-<div class="table table-bordered w-75 p-3 mx-auto my-5 text-break">
-    
-        <div class="col my-5">
-            投稿日
-        </div>
-        <div class="col my-5 mx-3">
-            2023-01-01
-        </div>
-    
-   
-        <div class="col my-5">
-            名前
-        </div>
-        <div class="col my-5 mx-3">
-            田中　一郎
-        </div>
-   
-
-        <div class="col my-5">
-            チーム名
-        </div>
-        <div class="col my-5 mx-3">
-            レイカーズ
-        </div>
-
-
-        <div class="col my-5">
-            ポジション
-        </div>
-        <div class="col my-5 mx-3">
-            G
-        </div>
-
-
-        <div class="col my-5">
-            タイトル
-        </div>
-        <div class="col my-5 mx-3">
-            
-        </div>
-
-
-        <div class="col my-5">
-            内容
-        </div>
-        <div class="col my-5 mx-3">
-            あああああああああああああああああああああああああああああああああああああああああああ
-            あああああああああああああああああああああああああああああああああああああああああああああ
-            ああああああああああああああああああああああああああああああああああああああああああああああ
-            ああああああああああああああああああああああああああああああああああああああああああああああ
-            あああああああああああああああああああああああああああああああああああああああああああああああ
-        </div>
-       
+<div class="d-grid gap-2 col-2 mx-auto my-5">
+    <a href="/playercard_edit_form" button class="btn btn-success col my-5" type="button">編集</a>
 </div>
 
-<div class="d-grid gap-2 col-4 mx-auto my-5">
-    <a href="/scout_form" button class="btn btn-primary col my-5" type="button">スカウトする</a>
-    <a href="/" button class="btn btn-secondary col my-5" type="button">TOP</a>
+
+
+<h1 class="text-center m-5 border-bottom p-1">Basketball player リスト</h1> 
+
+<div class="d-grid gap-2 col-2 mx-auto my-5">
+    <a href="{{ route('posts.create') }}" button class="btn btn-danger col py-2 my-5" type="button">新規投稿</a>
 </div>
+
+<div class="input-group w-50 p-3 mx-auto mb-5">
+    <input type="text" class="form-control ">
+    <span class="input-group-btn">
+        <button class="btn btn-primary" type="submit">検索</button>
+    </span>
+</div>
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4 mx-5">
+
+@foreach($vals as $val)
+    <div class="col mb-5">
+        <div class="card">
+        <img src="storage/images/Unknown_person.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <p class="card-title">{{ $val['name']}}</p>
+                <p class="card-title">タイトル：{{ $val['title']}}</p>
+                <p class="card-text">ポジション：{{ $val['position']}}</p>
+                <p class="card-text">チーム名</p>
+                <!-- <a href="/posts/{{$val['id']}}" class="btn btn-primary text-center">投稿詳細</a> -->
+                <a href="{{ route('posts.show',$val['id']) }}" class="btn btn-primary text-center">投稿詳細</a>
+            </div>
+            <div class="card-footer">
+            <small class="text-muted">{{ $val['created_at']}}</small>
+            </div>
+        </div>
+    </div>
+@endforeach   
 
 @endsection

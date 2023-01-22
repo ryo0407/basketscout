@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="w-50 py-5 mx-auto my-5 bg-white text-center">
+バスケットボール選手登録とスカウトサイトです。<br>
+ご登録のメールアドレスとパスワードを入れ<br>
+ログインしてください。
+</div>
+
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -50,7 +57,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

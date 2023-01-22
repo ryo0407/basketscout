@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
 
+<!--  選手ページからの選手・投稿詳細画面 -->
+
+
 <h1 class="text-center m-5 border-bottom p-1">選手詳細</h1> 
 
 <div class="table table-bordered w-75 p-3 mx-auto m-5">
@@ -132,11 +135,10 @@
 
 
 
-<h1 class="text-center m-5 border-bottom p-1">投稿詳細</h1> 
-
+<h1 class="text-center m-5 border-bottom p-1">投稿詳細</h1>
 
 <div class="table table-bordered w-75 p-3 mx-auto my-5 text-break">
-    
+
         <div class="col my-5">
             投稿日
         </div>
@@ -165,7 +167,7 @@
             ポジション
         </div>
         <div class="col my-5 mx-3">
-            G
+            {{ $val['position'] }}
         </div>
 
 
@@ -173,7 +175,7 @@
             タイトル
         </div>
         <div class="col my-5 mx-3">
-            
+        {{ $val['title'] }}
         </div>
 
 
@@ -181,18 +183,31 @@
             内容
         </div>
         <div class="col my-5 mx-3">
-            あああああああああああああああああああああああああああああああああああああああああああ
-            あああああああああああああああああああああああああああああああああああああああああああああ
-            ああああああああああああああああああああああああああああああああああああああああああああああ
-            ああああああああああああああああああああああああああああああああああああああああああああああ
-            あああああああああああああああああああああああああああああああああああああああああああああああ
+        {{ $val['body'] }}
         </div>
-       
 </div>
 
+
+@if( $val['user_id'] == Auth::id() )
 <div class="d-grid gap-2 col-4 mx-auto my-5">
-    <a href="/scout_form" button class="btn btn-primary col my-5" type="button">スカウトする</a>
-    <a href="/" button class="btn btn-secondary col my-5" type="button">TOP</a>
+    <a href="{{ route('posts.edit', $val['id']) }}" button class="btn btn-success col my-3" type="button">投稿を編集する</a>
+    <form method="POST" action="{{ route('posts.destroy', $val['id']) }}">
+        @csrf
+        @method('delete')
+        <input type="submit" class="btn btn-primary col my-3" value="削除する">
+    </form>
+    <a href="/past_post" button class="btn btn-secondary col my-3" type="button">戻る</a>
 </div>
+
+@else
+<div class="d-grid gap-2 col-4 mx-auto my-5">
+    <a href="{{ route('posts.index')}}" button class="btn btn-secondary col my-5" type="button">戻る</a>
+</div>
+@endif
+<form method="GET" action="{{ route('scouts.edit', $val['user_id']) }}">
+        @csrf
+        <input type="submit" class="btn btn-primary col my-3" value="スカウトする">
+    </form>
+
 
 @endsection

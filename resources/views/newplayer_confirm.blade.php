@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('content')
 
-<h1 class="text-center m-5 border-bottom p-1">選手詳細</h1> 
+
+<h1 class="text-center m-5 border-bottom p-1">あなたの選手カード</h1>
 
 <div class="table table-bordered w-75 p-3 mx-auto m-5">
     <div class="row">
@@ -124,75 +125,17 @@
                             <p class="text-break">mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm</p>     
                 </div>
 
-                
-                
             </div>
     </div>
 </div>    
 
 
-
-<h1 class="text-center m-5 border-bottom p-1">投稿詳細</h1> 
-
-
-<div class="table table-bordered w-75 p-3 mx-auto my-5 text-break">
-    
-        <div class="col my-5">
-            投稿日
-        </div>
-        <div class="col my-5 mx-3">
-            2023-01-01
-        </div>
-    
-   
-        <div class="col my-5">
-            名前
-        </div>
-        <div class="col my-5 mx-3">
-            田中　一郎
-        </div>
-   
-
-        <div class="col my-5">
-            チーム名
-        </div>
-        <div class="col my-5 mx-3">
-            レイカーズ
-        </div>
-
-
-        <div class="col my-5">
-            ポジション
-        </div>
-        <div class="col my-5 mx-3">
-            G
-        </div>
-
-
-        <div class="col my-5">
-            タイトル
-        </div>
-        <div class="col my-5 mx-3">
-            
-        </div>
-
-
-        <div class="col my-5">
-            内容
-        </div>
-        <div class="col my-5 mx-3">
-            あああああああああああああああああああああああああああああああああああああああああああ
-            あああああああああああああああああああああああああああああああああああああああああああああ
-            ああああああああああああああああああああああああああああああああああああああああああああああ
-            ああああああああああああああああああああああああああああああああああああああああああああああ
-            あああああああああああああああああああああああああああああああああああああああああああああああ
-        </div>
-       
-</div>
-
 <div class="d-grid gap-2 col-4 mx-auto my-5">
-    <a href="/scout_form" button class="btn btn-primary col my-5" type="button">スカウトする</a>
-    <a href="/" button class="btn btn-secondary col my-5" type="button">TOP</a>
+    <a href="" button class="btn btn-primary col my-5" type="button">この内容で確定する</a>
+    <a href="newplayer_register" button class="btn btn-secondary col my-3" type="button">戻る</a>
 </div>
+
+
+
 
 @endsection

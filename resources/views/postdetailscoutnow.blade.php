@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
 
+<!--  スカウトページからの選手・投稿詳細画面 -->
+
+
 <h1 class="text-center m-5 border-bottom p-1">選手詳細</h1> 
 
 <div class="table table-bordered w-75 p-3 mx-auto m-5">
@@ -191,8 +194,7 @@
 </div>
 
 <div class="d-grid gap-2 col-4 mx-auto my-5">
-    <a href="/scout_form" button class="btn btn-primary col my-5" type="button">スカウトする</a>
-    <a href="/" button class="btn btn-secondary col my-5" type="button">TOP</a>
+    <a href="/scout_now" button class="btn btn-secondary col my-5" type="button">戻る</a>
 </div>
 
 @endsection

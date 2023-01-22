@@ -20,7 +20,7 @@
             <img src="storage/images/Unknown_person.jpg" class="card-img-top" alt="...">
             <div class="card-body">
                 <p class="card-title">Name</p>
-                <h4 class="card-title">タイトル</h4>
+                <p class="card-title">タイトル</p>
                 <p class="card-text">ポジション</p>
                 <p class="card-text">チーム名</p>
                 <a href="/post_detail" class="btn btn-primary text-center">投稿詳細</a>
@@ -30,12 +30,13 @@
             </div>
             </div>
         </div>
+        
         <div class="col mb-5">
             <div class="card">
-            <img src="..." class="card-img-top" alt="...">
+            <img src="storage/images/Unknown_person.jpg" class="card-img-top" alt="...">
             <div class="card-body">
                 <p class="card-title">Name</p>
-                <h4 class="card-title">タイトル</h4>
+                <p class="card-title">タイトル</p>
                 <p class="card-text">ポジション</p>
                 <p class="card-text">チーム名</p>
                 <a href="/post_detail" class="btn btn-primary text-center">投稿詳細</a>
@@ -45,12 +46,13 @@
             </div>
             </div>
         </div>
+
         <div class="col mb-5">
             <div class="card">
-            <img src="..." class="card-img-top" alt="...">
+            <img src="storage/images/Unknown_person.jpg" class="card-img-top" alt="...">
             <div class="card-body">
                 <p class="card-title">Name</p>
-                <h4 class="card-title">タイトル</h4>
+                <p class="card-title">タイトル</p>
                 <p class="card-text">ポジション</p>
                 <p class="card-text">チーム名</p>
                 <a href="/post_detail" class="btn btn-primary text-center">投稿詳細</a>
@@ -60,12 +62,13 @@
             </div>
             </div>
         </div>
+
         <div class="col mb-5">
             <div class="card">
-            <img src="..." class="card-img-top" alt="...">
+            <img src="storage/images/Unknown_person.jpg" class="card-img-top" alt="...">
             <div class="card-body">
                 <p class="card-title">Name</p>
-                <h4 class="card-title">タイトル</h4>
+                <p class="card-title">タイトル</p>
                 <p class="card-text">ポジション</p>
                 <p class="card-text">チーム名</p>
                 <a href="/post_detail" class="btn btn-primary text-center">投稿詳細</a>
@@ -75,5 +78,6 @@
             </div>
             </div>
         </div>
+
     </div>
 @endsection
