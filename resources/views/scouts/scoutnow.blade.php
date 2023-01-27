@@ -3,52 +3,132 @@
 
 <h1 class="text-center m-5 border-bottom p-1">スカウト状況</h1>
 
-<div class="container w-25 p-3 mx-auto mb-5">
-@foreach($scout_player as $sp)
-    <div class="card">
-        <img src="storage/images/Unknown_person.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-title">Name <br> {{ $sp['name'] }}</p>
-                <p class="card-title">タイトル</p>
-                <p class="card-text">ポジション</p>
-                <p class="card-text">チーム名</p>
-                <a href="/postdetail_scoutnow" class="btn btn-primary text-center">投稿詳細</a>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small>
-            </div>
-    </div>
 
-    <div class="bg-white w-75 p-3 mx-auto mb-5 text-center">
+@foreach($scout_player as $sp)
+<div class="table table-bordered w-75 p-3 mx-auto m-5">
+
+<div class="row">
+        <div class="col-5 border card-img mx-auto my-auto">
+                <img src="{{ $sp['profile_photo'] ? asset('storage/'.$sp['profile_photo']) : 'storage/images/Unknown_person.jpg'}}" class="card-img" alt="...">
+        </div>
+        <div class="col-7 border">
+            <div class="row text-break boder">
+                <div class="col-4 ">
+                    <div class="row">
+                        <div class="col border  py-3 text-center">
+                            名前
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 ">
+                    <div class="row">
+                        <div class="col border  py-3">
+                        {{$sp['name']}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row text-break boder">
+                <div class="col-4 ">
+                    <div class="row">
+                        <div class="col border  py-3 text-center">
+                            チーム名
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 ">
+                    <div class="row">
+                        <div class="col border  py-3">
+                        {{ $sp['team_name']}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row text-break boder">
+                <div class="col-4 ">
+                    <div class="row">
+                        <div class="col border  py-3 text-center">
+                            ポジション
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 ">
+                    <div class="row">
+                        <div class="col border  py-3">
+                        {{ $sp['main_position']}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row text-break boder">
+                <div class="col-4 ">
+                    <div class="row">
+                        <div class="col border  py-3 text-center">
+                            身長
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 ">
+                    <div class="row">
+                        <div class="col border  py-3">
+                        {{ $sp['height']}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row text-break boder">
+                <div class="col-4 ">
+                    <div class="row">
+                        <div class="col border  py-3 text-center">
+                            体重
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 ">
+                    <div class="row">
+                        <div class="col border  py-3">
+                        {{ $sp['weight']}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row text-break boder">
+                <div class="col-12 ">
+                    <div class="row">
+                        <div class="col border  py-3 text-center">
+                            大会成績　/ 自己PR
+                        </div>  
+                    </div>
+                </div>
+                        <p class="text-break"> {{ $sp['strong_point']}}</p>     
+            </div>
+
+        </div>
+</div>
+</div>  
+
+@if($sp['scout_flg'] == 0)
+<div class="bg-white w-75 p-3 mx-auto mb-5 text-center">
         まだ選手に受理されてません
     </div>
+@elseif($sp['scout_flg'] == 1)
+<div class="bg-white w-75 p-3 mx-auto mb-5 text-center">
+        スカウトが承諾されました。<br>
+        選手からの連絡をお待ちください。
+    </div>
+@else
+<div class="bg-white w-75 p-3 mx-auto mb-5 text-center">
+        スカウトが受理されませんでした。
+    </div>
+@endif
 
-</div>
 @endforeach
-
-<div class="container w-25 p-3 mx-auto mb-5">
-
-    <div class="card">
-        <img src="storage/images/Unknown_person.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-title">Name</p>
-                <p class="card-title">タイトル</p>
-                <p class="card-text">ポジション</p>
-                <p class="card-text">チーム名</p>
-                <a href="/postdetail_scoutnow" class="btn btn-primary text-center">投稿詳細</a>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small>
-            </div>
-    </div>
-
-    <div class="bg-white w-75 p-3 mx-auto mb-5 text-center">
-        スカウトが受理されました<br>
-        早速メールして選手とコンタクトを取りましょう
-    </div>
-
-</div>
-
 
 
 @endsection

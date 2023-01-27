@@ -3,24 +3,23 @@
 
 <h1 class="text-center m-5 border-bottom p-1">選手投稿編集フォーム</h1>
 
+<div class = 'panel-body w-50 p-3 mx-auto mb-5'>
+                            @if($errors->any())
+                            <div class = 'alert alert-danger'>
+                                <ul>
+                                    @foreach($errors->all() as $message)
+                                    <li>{{ $message}}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
+</div>
+
 
 <form method="POST" action="{{ route('posts.update', $val['id']) }}" class="container w-50 p-3 mx-auto mb-5">
 @csrf
 @method('patch')
-  <div class="mb-3">
-    <label class="form-label">名前</label>
-    <div class="col my-5 mx-3">
-            
-    </div>
-    
-  </div>
 
-  <div class="mb-3">
-    <label class="form-label">チーム名</label>
-    <div class="col my-5 mx-3">
-            
-    </div>
-  </div>
 
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">ポジション</label>
@@ -39,8 +38,8 @@
   </div>
 
   <div class="d-grid gap-2 col-4 mx-auto my-5">
-    <input type="submit" class="btn btn-primary col my-3" value="編集し投稿する">
-    <a href="/past_post" button class="btn btn-secondary col my-3" type="button">戻る</a>
+    <input type="submit" class="btn btn-primary col my-3" value="更新する">
+    <a href="/posts" button class="btn btn-secondary col my-3" type="button">戻る</a>
   </div>
 
 </form>

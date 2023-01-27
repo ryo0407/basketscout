@@ -21,7 +21,17 @@ class ScoutlistController extends Controller
     public function index()
     {
         $query=Reason::query();
-        $scout_player=$query->join('users', 'reasons.player_id', '=', 'users.id')->get();
+        $scout_player=$query->select('reasons.id as reason_id', 'reasons.player_id', 'reasons.pic_id', 'reasons.scout_flg', 'users.id as usr_id', 'users.name','picinfos.user_id','picinfos.team_name' )
+        ->join('users', 'reasons.pic_id', '=', 'users.id')
+        ->join('picinfos', 'reasons.pic_id', '=', 'picinfos.user_id')
+        ->where('player_id', Auth::id())
+        ->get();
+        
+        // join('users', 'reasons.pic_id', '=', 'users.id' )
+        // ->join('picinfos', 'reasons.pic_id', '=', 'picinfos.user_id')
+        // ->get();
+
+        
       return view('scoutlists.get_scout',[
         'scout_player' =>  $scout_player,
       ]);
@@ -57,7 +67,19 @@ class ScoutlistController extends Controller
      */
     public function show($id)
     {
-        //
+        $reason = Reason::where('id', $id)->first();
+        $val = Picinfo::where('user_id', $reason->pic_id)->first();
+        $user = User::where('id', $reason->pic_id)->first();
+
+        
+
+        return view('scoutlists.scout_detail',[
+            'val' => $val,
+            'user' => $user,
+            'reason' => $reason,
+
+          ]);
+    
     }
 
     /**
@@ -68,7 +90,11 @@ class ScoutlistController extends Controller
      */
     public function edit($id)
     {
-        //
+        $reason = Reason::find($id);
+        $reason->scout_flg = 1;
+        $reason->save();
+
+        return redirect()->route('scoutlists.index');
     }
 
     /**
@@ -78,7 +104,7 @@ class ScoutlistController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
     }
@@ -92,5 +118,16 @@ class ScoutlistController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function delete($id)
+    { 
+        
+        $reason = Reason::find($id);
+        $reason->scout_flg = 2;
+        $reason->save();
+
+        return redirect()->route('scoutlists.index');
+
     }
 }

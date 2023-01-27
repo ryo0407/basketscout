@@ -11,6 +11,8 @@ use App\Picinfo;
 use App\Post;
 use App\Reason;
 
+use App\Http\Requests\CreateReason;
+
 class ScoutController extends Controller
 {
     /**
@@ -21,7 +23,14 @@ class ScoutController extends Controller
     public function index()
     {
         $query=Reason::query();
-        $scout_player=$query->join('users', 'reasons.player_id', '=', 'users.id')->get();
+        $scout_player=$query->join('users', 'reasons.player_id', '=', 'users.id')
+        ->join('playerinfos', 'reasons.player_id', '=', 'playerinfos.user_id')
+        ->where('pic_id', Auth::id())
+        ->get();
+      
+        
+
+
       return view('scouts.scoutnow',[
         'scout_player' =>  $scout_player,
       ]);
@@ -81,7 +90,7 @@ class ScoutController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateReason $request, $id)
     {
         $reason = new Reason;
         $reason->pic_id = Auth::id();
@@ -89,7 +98,7 @@ class ScoutController extends Controller
         $reason->scout_reason = $request->scout_reason;
         $reason->scout_flg = 0;
         $reason->save();
-        return redirect()->route('scouts.index');
+        return redirect()->route('posts.index');
     
     }
 

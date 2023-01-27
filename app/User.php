@@ -59,18 +59,18 @@ class User extends Authenticatable
     }
 
     public function picinfo(){
-        return $this->hasOne('App\Picinfo','user_id','id');
+        return $this->hasMany('App\Picinfo');
     }
 
     public function playerinfo(){
-        return $this->hasOne('App\Playerinfo','user_id','id');
+        return $this->hasMany('App\Playerinfo');
     }
 
-    public function post(){
+    public function posts(){
         return $this->hasMany('App\Post');
     }
 
-    public function reason(){
+    public function reasons(){
         return $this->hasMany('App\Reason');
     }
 

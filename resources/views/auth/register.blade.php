@@ -72,9 +72,8 @@
                         <div class="form-group row ">
                             <label for="category" class="col-md-4 col-form-label text-md-right">ユーザー種別</label>
                                 <select class="col-6" name="role">
-                                    <option>選択してください</option>
-                                    <option value="0">スカウト</option>
-                                    <option value="1">選手</option>
+                                    <option value="0">選手</option>
+                                    <option value="1">スカウト</option>
                                 </select>
                         </div>
 

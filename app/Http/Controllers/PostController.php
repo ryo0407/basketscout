@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreatePost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
@@ -10,6 +11,7 @@ use App\Picinfo;
 use App\Post;
 use App\Reason;
 
+
 class PostController extends Controller
 {
     /**
@@ -17,24 +19,127 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    
+    public function index(Request $request)
     {
-        $vals = Post::query()->join('users', 'posts.user_id', '=', 'users.id')->get();
-     
+        $count = 6;
+        $query = Post::query();
+        $keyword = $this->escape($request->input('keyword'));
+        $keywords = $this->pregSplit($keyword);
+
+        if(!empty($keywords)) {
+            foreach ($keywords as $keyword) {
+                $query
+                    ->where('title', 'like', "%$keyword%")
+                    ->orWhere('position', 'like', "%$keyword%")
+                    ->orWhereHas('user', function($query) use ($keyword) {
+                        $query->where('name', 'like', "%$keyword%" );
+                    });
+            }
+        }
+        $vals= $query->limit($count)->get()
+        ->load('user');
+
+      
+
+        //以下のコードを上の$valsへはめ込み方がわからない
+        // $vals = Post::query()
+        // ->join('users', 'posts.user_id', '=', 'users.id')
+        // ->join('playerinfos', 'posts.user_id', '=', 'playerinfos.user_id')
+        // ->get();
+        // dd($vals);
+
+        $player = Playerinfo::where('user_id',Auth::id())->first();
+        $pic = Picinfo::where('user_id',Auth::id())->first();
+       
+
         return view ('posts.index',[
             'vals' => $vals,
+            'player' => $player,
+            'pic' => $pic,
+            
         ]);
     }
+
+    //検索機能
+
+    private function escape(string $value = null)
+    {
+        if(!$value) {
+            return $value;
+        }
+        return str_replace(
+            ['\\', '%', '_'],
+            ['\\\\', '\\%', '\\_'],
+            $value
+        );
+    }
+
+    private function pregSplit($keyword)
+    {
+        $keyword = mb_convert_kana( $keyword, "s" );
+        return preg_split('/[\p{Z}\p{Cc}]++/u', $keyword, -1, PREG_SPLIT_NO_EMPTY);
+    }
+
+    public function searchQuery($query, $keywords = null, $count)
+    {
+        if(!empty($keywords)) {
+            foreach ($keywords as $keyword) {
+                $query
+                    ->where('title', 'like', "%$keyword%")
+                    ->orWhere('position', 'like', "%$keyword%")
+                    ->orWhereHas('user', function($query) use ($keyword) {
+                        $query->where('name', 'like', "%$keyword%" );
+                    });
+            }
+        }
+        return $query->offset($count)->limit(6)->get()
+        ->load('user');
+    }
+
+
+    public function infiniteScroll(Request $request){
+
+        $count = $request->count;
+  
+        $query = Post::query();
+        $keyword = $this->escape($request->input('keyword'));
+        $keywords = $this->pregSplit($keyword);
+
+        if(!empty($keywords)) {
+            foreach ($keywords as $keyword) {
+                $query
+                    ->where('title', 'like', "%$keyword%")
+                    ->orWhere('position', 'like', "%$keyword%")
+                    ->orWhereHas('user', function($query) use ($keyword) {
+                        $query->where('name', 'like', "%$keyword%" );
+                    });
+            }
+        }
+        $vals= $query->offset($count)->limit(6)->get()
+        ->load('user');
+
+    $counts = $count+6;
+        return array($counts, $vals);
+    }
+    //過去の投稿
 
     public function past()
     {
         // (TODO) user_id Auth入れる
-        // $val = Post::orderby('created_at', 'DESC')->where('user_id', Auth::id())->get();
+        //$val = Post::orderby('created_at', 'DESC')->where('user_id', Auth::id())->get();
 
+        $posts = Post::where('user_id', Auth::id())->get(); 
         $user = User::find(Auth::id());
+        $player = Playerinfo::where('user_id', Auth::id())->first(); 
+
         return view ('posts.past',[
-            // 'vals' => $val,
+
+            'posts' => $posts,
             'user' => $user,
+            'player' => $player,
+        
         ]);
     }
 
@@ -54,7 +159,7 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreatePost $request)
     {
         $post = new Post;
         $post->user_id = Auth::id();
@@ -75,9 +180,18 @@ class PostController extends Controller
     public function show($id)
     {
         $val = Post::find($id);
+        $player = Playerinfo::where('user_id', $val->user_id)->first();
+        $user = User::where('id', $val->user_id)->first();
+        $pic = Reason::where('pic_id', Auth::id())->where('player_id', $val->user_id)->first();
+
+      
+        
 
         return view ('posts.show',[
             'val' => $val,
+            'player' => $player,
+            'user' => $user,
+            'pic' =>  $pic,
         ]);
     }
 
@@ -92,6 +206,7 @@ class PostController extends Controller
     {
         $val = Post::find($id);
 
+
         return view ('posts.edit',[
             'val' => $val,
         ]);
@@ -104,14 +219,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreatePost $request, $id)
     {
         $post = new Post;
-        $post->user_id = Auth::id();
-        $post->position = $request->position;
-        $post->title = $request->title;
-        $post->body = $request->body;
-        $post->save();
+        $record = $post->find($id);
+        $record->user_id = Auth::id();
+        $record->position = $request->position;
+        $record->title = $request->title;
+        $record->body = $request->body;
+        $record->save();
         return redirect()->route('posts.past');
     }
 

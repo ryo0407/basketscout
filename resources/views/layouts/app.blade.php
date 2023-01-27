@@ -21,11 +21,11 @@
     @yield('stylesheet')
 </head>
 <body>
-    <div id="app">
+    <div>
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="/posts">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand" href="{{ route('posts.index') }}">
+                    BB.dream
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -40,10 +40,8 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        <a class="nav-link text-black" href="{{ route('posts.index') }}">TOP</a>
-                        <a class="nav-link text-black" href="/scout_now">スカウト状態</a>
-                        <a class="nav-link text-black" href="/scoutlists">スカウト一覧</a>
-                        <a class="nav-link text-black" href="{{ route('posts.past') }}">過去の投稿</a>
+                        
+
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -54,6 +52,14 @@
                                 </li>
                             @endif
                         @else
+
+                        @if( Auth::user()->role == 1)
+                        <a class="nav-link text-black" href="{{ route('scouts.index') }}">スカウト状態</a>
+                        @else
+                        <a class="nav-link text-black" href="{{ route('scoutlists.index') }}">スカウト一覧</a>
+                        <a class="nav-link text-black" href="{{ route('posts.past') }}">過去の投稿</a>
+                        @endif
+                        
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -71,11 +77,11 @@
                                         @csrf
                                     </form>
 
-                                    <a href="{{ route('scouts.index') }}">sukauto
-                                    </a>
                                 </div>
                             </li>
+                            
                         @endguest
+                        
                     </ul>
                 </div>
             </div>

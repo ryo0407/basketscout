@@ -7,14 +7,10 @@
 <h1 class="text-center m-5 border-bottom p-1">選手詳細</h1> 
 
 <div class="table table-bordered w-75 p-3 mx-auto m-5">
-    <div class="row">
-        <div class="col border">
-            id 0001
-        </div>
-    </div>
+
     <div class="row">
             <div class="col-5 border card-img mx-auto my-auto">
-                    <img src="storage/images/Unknown_person.jpg" class="card-img" alt="...">
+                    <img src="{{ $player['profile_photo'] ? asset('storage/'.$player['profile_photo']) : 'storage/images/Unknown_person.jpg'}}" class="card-img" alt="...">
             </div>
             <div class="col-7 border">
                 <div class="row text-break boder">
@@ -28,7 +24,7 @@
                     <div class="col-8 ">
                         <div class="row">
                             <div class="col border  py-3">
-                                lkjdfkbvkldfbvkmjadklfbjnkladnfblkjndaslkfbnakldfbmvalknfvbadlkfnblkdaf
+                                {{ $user->name }}
                             </div>
                         </div>
                     </div>
@@ -45,7 +41,7 @@
                     <div class="col-8 ">
                         <div class="row">
                             <div class="col border  py-3">
-                                lkjdfkbvkldfbvkmjadklfbjnkladnfblkjndaslkfbnakldfbmvalknfvbadlkfnblkdaf
+                                {{ $player['team_name']}}
                             </div>
                         </div>
                     </div>
@@ -62,7 +58,7 @@
                     <div class="col-8 ">
                         <div class="row">
                             <div class="col border  py-3">
-                                lkjdfkbvkldfbvkmjadklfbjnkladnfblkjndaslkfbnakldfbmvalknfvbadlkfnblkdaf
+                                {{ $player['main_position']}}
                             </div>
                         </div>
                     </div>
@@ -79,7 +75,7 @@
                     <div class="col-8 ">
                         <div class="row">
                             <div class="col border  py-3">
-                                lkjdfkbvkldfbvkmjadklfbjnkladnfblkjndaslkfbnakldfbmvalknfvbadlkfnblkdaf
+                                {{ $player['height']}}
                             </div>
                         </div>
                     </div>
@@ -96,24 +92,7 @@
                     <div class="col-8 ">
                         <div class="row">
                             <div class="col border  py-3">
-                                lkjdfkbvkldfbvkmjadklfbjnkladnfblkjndaslkfbnakldfbmvalknfvbadlkfnblkdaf
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row text-break boder">
-                    <div class="col-4 ">
-                        <div class="row">
-                            <div class="col border  py-3 text-center">
-                                メールアドレス
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-8 ">
-                        <div class="row">
-                            <div class="col border  py-3">
-                                lkjdfkbvkldfbvkmjadklfbjnkladnfblkjndaslkfbnakldfbmvalknfvbadlkfnblkdaf
+                                {{ $player['weight']}}
                             </div>
                         </div>
                     </div>
@@ -121,12 +100,15 @@
 
 
                 <div class="row text-break boder">
-                            <div class="col border  py-3 text-center">
-                                大会成績　/ 自己PR
-                            </div>  
-                            <p class="text-break">mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm</p>     
+                        <div class="col-12 ">
+                            <div class="row">
+                                <div class="col border  py-3 text-center">
+                                    大会成績　/ 自己PR
+                                </div>  
+                            </div>
+                        </div>
+                                <p class="text-break"> {{ $player['strong_point']}}</p>     
                 </div>
-
                 
                 
             </div>
@@ -143,28 +125,12 @@
             投稿日
         </div>
         <div class="col my-5 mx-3">
-            2023-01-01
+            {{$val['created_at']->format('Y年m月d日')}}
         </div>
     
-   
-        <div class="col my-5">
-            名前
-        </div>
-        <div class="col my-5 mx-3">
-            田中　一郎
-        </div>
-   
 
         <div class="col my-5">
-            チーム名
-        </div>
-        <div class="col my-5 mx-3">
-            レイカーズ
-        </div>
-
-
-        <div class="col my-5">
-            ポジション
+            その日担当したポジション
         </div>
         <div class="col my-5 mx-3">
             {{ $val['position'] }}
@@ -175,7 +141,7 @@
             タイトル
         </div>
         <div class="col my-5 mx-3">
-        {{ $val['title'] }}
+            {{ $val['title'] }}
         </div>
 
 
@@ -183,7 +149,7 @@
             内容
         </div>
         <div class="col my-5 mx-3">
-        {{ $val['body'] }}
+             {{ $val['body'] }}
         </div>
 </div>
 
@@ -196,7 +162,7 @@
         @method('delete')
         <input type="submit" class="btn btn-primary col my-3" value="削除する">
     </form>
-    <a href="/past_post" button class="btn btn-secondary col my-3" type="button">戻る</a>
+    <a href="{{ route('posts.past')}}" button class="btn btn-secondary col my-3" type="button">戻る</a>
 </div>
 
 @else
@@ -204,10 +170,16 @@
     <a href="{{ route('posts.index')}}" button class="btn btn-secondary col my-5" type="button">戻る</a>
 </div>
 @endif
+
+@if(Auth::user()->role == 1) 
+@if(!isset($pic['scout_flg']))
+<div class="d-grid gap-2 col-4 mx-auto my-5">
 <form method="GET" action="{{ route('scouts.edit', $val['user_id']) }}">
         @csrf
-        <input type="submit" class="btn btn-primary col my-3" value="スカウトする">
+        <input type="submit" class="btn btn-primary col my-1" value="スカウトする">
     </form>
-
+</div>
+@endif
+@endif
 
 @endsection
