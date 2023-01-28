@@ -21,7 +21,7 @@ class CreatePlayerinfosTable extends Migration
             $table->integer('weight');
             $table->string('main_position');
             $table->text('strong_point');
-            $table->string('profile_photo');
+            $table->string('profile_photo')->nullable()->change();
             $table->timestamps();
         });
     }

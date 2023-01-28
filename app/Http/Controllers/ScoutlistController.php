@@ -26,10 +26,6 @@ class ScoutlistController extends Controller
         ->join('picinfos', 'reasons.pic_id', '=', 'picinfos.user_id')
         ->where('player_id', Auth::id())
         ->get();
-        
-        // join('users', 'reasons.pic_id', '=', 'users.id' )
-        // ->join('picinfos', 'reasons.pic_id', '=', 'picinfos.user_id')
-        // ->get();
 
         
       return view('scoutlists.get_scout',[

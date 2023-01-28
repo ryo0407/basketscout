@@ -40,15 +40,7 @@ class PostController extends Controller
         }
         $vals= $query->limit($count)->get()
         ->load('user');
-
       
-
-        //以下のコードを上の$valsへはめ込み方がわからない
-        // $vals = Post::query()
-        // ->join('users', 'posts.user_id', '=', 'users.id')
-        // ->join('playerinfos', 'posts.user_id', '=', 'playerinfos.user_id')
-        // ->get();
-        // dd($vals);
 
         $player = Playerinfo::where('user_id',Auth::id())->first();
         $pic = Picinfo::where('user_id',Auth::id())->first();
@@ -58,6 +50,7 @@ class PostController extends Controller
             'vals' => $vals,
             'player' => $player,
             'pic' => $pic,
+            'keyword' => $keyword,
             
         ]);
     }
@@ -101,12 +94,11 @@ class PostController extends Controller
 
     public function infiniteScroll(Request $request){
 
-        $count = $request->count;
+        $count = $request->count*6;
   
         $query = Post::query();
         $keyword = $this->escape($request->input('keyword'));
         $keywords = $this->pregSplit($keyword);
-
         if(!empty($keywords)) {
             foreach ($keywords as $keyword) {
                 $query
@@ -127,12 +119,10 @@ class PostController extends Controller
 
     public function past()
     {
-        // (TODO) user_id Auth入れる
-        //$val = Post::orderby('created_at', 'DESC')->where('user_id', Auth::id())->get();
-
         $posts = Post::where('user_id', Auth::id())->get(); 
         $user = User::find(Auth::id());
         $player = Playerinfo::where('user_id', Auth::id())->first(); 
+       
 
         return view ('posts.past',[
 
@@ -183,6 +173,7 @@ class PostController extends Controller
         $player = Playerinfo::where('user_id', $val->user_id)->first();
         $user = User::where('id', $val->user_id)->first();
         $pic = Reason::where('pic_id', Auth::id())->where('player_id', $val->user_id)->first();
+        
 
       
         

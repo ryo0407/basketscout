@@ -29,7 +29,7 @@ class CreatePlayer extends FormRequest
             'weight' => 'required|integer',
             'main_position' => 'required',
             'strong_point' => 'required',
-            'profile_photo' => 'required',
+            
         ];
     }
 }

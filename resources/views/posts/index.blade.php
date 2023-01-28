@@ -5,8 +5,9 @@
 @if(Auth::user()->role == 0)
 
     @if($player == null)
-
-    選手登録がまだなされていません。
+    <div class="w-50 p-3 mx-auto my-5 bg-white text-center">
+        選手登録がまだなされていません。
+    </div>
     <div class="d-grid gap-2 col-2 mx-auto my-5">
         <a href="{{route('create.newplayer') }}" button class="btn btn-success col my-5" type="button">新規選手登録はこちら</a>
     </div>
@@ -19,8 +20,12 @@
     <div class="table table-bordered w-75 p-3 mx-auto m-5">
 
         <div class="row">
-                <div class="col-5 border card-img mx-auto my-auto">
-                        <img src="{{ $player['profile_photo'] ? asset('storage/'.$player['profile_photo']) : 'storage/images/Unknown_person.jpg'}}" class="card-img" alt="...">
+                <div class="col-5 border card-img my-auto">
+                @if($player['profile_photo'] == null)
+                 <div class=" text-center ">画像が設定されてません</div>
+                @else
+                <img src="{{ asset('storage/'.$player['profile_photo']) }}" class="card-img mx-auto" alt="...">
+                @endif
                 </div>
                 <div class="col-7 border">
                     <div class="row text-break boder">
@@ -134,10 +139,11 @@
 @else
 
     @if($pic == null)
-
-    スカウト登録がまだなされていません。
-    <div class="d-grid gap-2 col-2 mx-auto my-5">
-        <a href="{{route('create.newscout') }}" button class="btn btn-success col my-5" type="button">新規スカウト登録はこちら</a>
+    <div class="w-50 p-3 mx-auto my-5 bg-white text-center">
+        チーム情報の登録がまだなされていません。
+    </div>
+    <div class="d-grid gap-2 col-3 mx-auto my-5">
+        <a href="{{route('create.newscout') }}" button class="btn btn-danger col my-5" type="button">新規情報登録はこちら</a>
     </div>
 
     @else
@@ -231,9 +237,11 @@
 
 <h1 class="text-center m-5 border-bottom p-1">Basketball player リスト</h1> 
 
+@if(Auth::user()->role == 0)
 <div class="d-grid gap-2 col-2 mx-auto my-5">
     <a href="{{ route('posts.create') }}" button class="btn btn-danger col py-2 my-5" type="button">新規投稿</a>
 </div>
+@endif
 
 <form action="{{ route('posts.index') }}" method="get">
 @csrf
@@ -241,7 +249,7 @@
 <input type="hidden" id="count" value="6">
 
 <div class="input-group w-50 p-3 mx-auto mb-5">
-    <input type="text" class="form-control" name="keyword" id="keyword" value="">
+    <input type="text" class="form-control" name="keyword" id="keyword" value="{{ $keyword }}">
     <span class="input-group-btn">
         <button class="btn btn-primary" type="submit">検索</button>
     </span>
@@ -260,7 +268,6 @@
                     <p class="card-title">名前：{{ $val['user']['name']}}</p>
                     <p class="card-title">タイトル：{{ $val['title']}}</p>
                     <p class="card-text">ポジション：{{ $val['position']}}</p>
-                    <p class="card-text">チーム名：{{ $pic['team_name'] }}</p>
                     <a href="{{ route('posts.show',$val['id']) }}" class="btn btn-primary text-center">投稿詳細</a>
                 </div>
                 <div class="card-footer">
@@ -276,7 +283,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(function(){
-
+        var count = 0;
     // スクロールされた時に実行
     $(window).on("scroll", function () {
         // スクロール位置
@@ -303,7 +310,8 @@
         // 追加コンテンツ
         var add_content = "";
         // コンテンツ件数
-        var count = $("#count").val();
+        count = count + 1;
+        console.log(count);
         var keyword = $("#keyword").val();
         // ajax処理
         $.post({
@@ -311,12 +319,12 @@
             datatype: "json",
             url: "/infinite_scroll",
             data:{
-                 counts : count,
+                 count : count,
                  keyword : keyword,
                  }
         }).done(function(data){
             // コンテンツ生成
-            console.log(data);
+            // console.log(data);
             $.each(data[1],function(key, val){
                 add_content = 
             
@@ -327,8 +335,7 @@
                         <p class="card-title">名前：${val.user.name}</p>
                         <p class="card-title">タイトル：${val.title}</p>
                         <p class="card-text">ポジション：${val.position}</p>
-                        <p class="card-text">チーム名 <br></p>
-                        <a href="/post_detail/${val.id}" class="btn btn-primary text-center">投稿詳細</a>
+                        <a href="/posts/${val.id}" class="btn btn-primary text-center">投稿詳細</a>
                     </div>
                     <div class="card-footer">
                         <small class="text-muted">${val.created_at}</small>

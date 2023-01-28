@@ -10,7 +10,11 @@
     @foreach($posts as $post)
         <div class="col mb-5">
             <div class="card">
-                 <img src="{{ $player['profile_photo'] ? asset('storage/'.$player['profile_photo']) : 'storage/images/Unknown_person.jpg'}}" class="card-img" alt="...">
+                @if($player['profile_photo'] == null)
+                 <message class="text-center py-5 border">画像が設定されてません</message>
+                @else
+                <img src="{{ asset('storage/'.$player['profile_photo']) }}" class="card-img" alt="...">
+                @endif
 
                 <div class="card-body">
                     <p class="card-title"> {{ $user['name'] }}</p>

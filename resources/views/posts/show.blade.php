@@ -9,8 +9,12 @@
 <div class="table table-bordered w-75 p-3 mx-auto m-5">
 
     <div class="row">
-            <div class="col-5 border card-img mx-auto my-auto">
-                    <img src="{{ $player['profile_photo'] ? asset('storage/'.$player['profile_photo']) : 'storage/images/Unknown_person.jpg'}}" class="card-img" alt="...">
+            <div class="col-5 border card-img my-auto">
+                @if($player['profile_photo'] == null)
+                <div class=" text-center ">画像が設定されてません</div>
+                @else
+                <img src="{{ asset('storage/'.$player['profile_photo']) }}" class="card-img mx-auto" alt="...">
+                @endif
             </div>
             <div class="col-7 border">
                 <div class="row text-break boder">
@@ -160,7 +164,7 @@
     <form method="POST" action="{{ route('posts.destroy', $val['id']) }}">
         @csrf
         @method('delete')
-        <input type="submit" class="btn btn-primary col my-3" value="削除する">
+        <input type="submit" class="btn btn-danger col my-3" value="削除する">
     </form>
     <a href="{{ route('posts.past')}}" button class="btn btn-secondary col my-3" type="button">戻る</a>
 </div>
