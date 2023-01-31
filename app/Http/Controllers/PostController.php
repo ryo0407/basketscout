@@ -172,17 +172,16 @@ class PostController extends Controller
         $val = Post::find($id);
         $player = Playerinfo::where('user_id', $val->user_id)->first();
         $user = User::where('id', $val->user_id)->first();
-        $pic = Reason::where('pic_id', Auth::id())->where('player_id', $val->user_id)->first();
-        
-
+        $reason = Reason::where('pic_id', Auth::id())->where('player_id', $val->user_id)->first();
+        $picinfo = Picinfo::where('user_id', Auth::id())->first();
       
-        
 
         return view ('posts.show',[
             'val' => $val,
             'player' => $player,
             'user' => $user,
-            'pic' =>  $pic,
+            'reason' =>  $reason,
+            'picinfo' => $picinfo,
         ]);
     }
 

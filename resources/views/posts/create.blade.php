@@ -21,8 +21,15 @@
 
 
   <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">ポジション</label>
-    <input type="text" name="position" class="form-control" value="{{ old('position') }}">
+    <label for="position" class="form-label">ポジション</label>
+      <select name="position" class="form-control">
+      @foreach(\Position::P_LIST as $value)
+      @if($value == old('position'))
+      <option value="{{ $value }}" selected>{{ $value }}</option>
+      @endif
+      <option value="{{ $value }}">{{ $value }}</option>
+      @endforeach
+    </select>
   </div>
 
   <div class="mb-3">

@@ -75,6 +75,9 @@ Route::get('/scoutlist/delete/{id}',[ScoutlistController::class, 'delete'])->nam
 
 Route::post('/infinite_scroll',[PostController::class, 'infiniteScroll']);
 
+//my page
+Route::get('/mypage',[UserController::class, 'mypage'])->name('mypage');
+
 });
 
 

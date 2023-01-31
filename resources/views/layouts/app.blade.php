@@ -54,12 +54,12 @@
                         @else
 
                         @if( Auth::user()->role == 1)
-                        <a class="nav-link text-black" href="{{ route('scouts.index') }}">スカウト状態</a>
+                        <a class="nav-link text-black" href="{{ route('scouts.index') }}">スカウト状況</a>
                         @else
+                        <a class="nav-link text-black" href="{{ route('mypage')}}">My page</a>
                         <a class="nav-link text-black" href="{{ route('scoutlists.index') }}">スカウト一覧</a>
                         <a class="nav-link text-black" href="{{ route('posts.past') }}">過去の投稿</a>
                         @endif
-                        
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

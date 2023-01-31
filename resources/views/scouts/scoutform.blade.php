@@ -27,7 +27,7 @@
 
   <div class="d-grid gap-2 col-4 mx-auto my-5">
     <button type="submit" class="btn btn-primary col my-3" onclick="return confirm('この内容で確定し送信しますか？')">送信する</button>
-    <a href="/post_detail" button class="btn btn-secondary col my-5" type="button">戻る</a>
+    <a href="/posts" button class="btn btn-secondary col my-5" type="button">戻る</a>
 </div>
 
 </form>

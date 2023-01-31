@@ -169,21 +169,23 @@
     <a href="{{ route('posts.past')}}" button class="btn btn-secondary col my-3" type="button">戻る</a>
 </div>
 
+
 @else
 <div class="d-grid gap-2 col-4 mx-auto my-5">
     <a href="{{ route('posts.index')}}" button class="btn btn-secondary col my-5" type="button">戻る</a>
 </div>
 @endif
 
-@if(Auth::user()->role == 1) 
-@if(!isset($pic['scout_flg']))
+@if(Auth::user()->role == 1 && $reason['scout_flg'] == 0 && !empty($picinfo['id']) ) 
+
 <div class="d-grid gap-2 col-4 mx-auto my-5">
 <form method="GET" action="{{ route('scouts.edit', $val['user_id']) }}">
         @csrf
         <input type="submit" class="btn btn-primary col my-1" value="スカウトする">
     </form>
 </div>
-@endif
+
+
 @endif
 
 @endsection

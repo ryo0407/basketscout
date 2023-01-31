@@ -1,18 +1,18 @@
 @extends('layouts.app')
 @section('content')
 
-<h1 class="text-center m-5 border-bottom p-1">あなたの新規手カードフォーム</h1>
+<h1 class="text-center m-5 border-bottom p-1">あなたの新規選手カードフォーム</h1>
 
 <div class = 'panel-body w-50 p-3 mx-auto mb-5'>
-                            @if($errors->any())
-                            <div class = 'alert alert-danger'>
-                                <ul>
-                                    @foreach($errors->all() as $message)
-                                    <li>{{ $message}}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            @endif
+@if($errors->any())
+<div class = 'alert alert-danger'>
+    <ul>
+        @foreach($errors->all() as $message)
+        <li>{{ $message}}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 </div>
 
 
@@ -32,8 +32,15 @@
   </div>
 
   <div class="mb-5">
-    <label for="exampleInputEmail1" class="form-label">ポジション</label>
-    <input type="text" name="main_position" class="form-control" value="{{ old('main_position') }}">
+    <label for="main_position" class="form-label">ポジション</label>
+    <select name="main_position" class="form-control">
+      @foreach(\Position::P_LIST as $value)
+      @if($value == old('position'))
+      <option value="{{ $value }}" selected>{{ $value }}</option>
+      @endif
+      <option value="{{ $value }}">{{ $value }}</option>
+      @endforeach
+    </select>
   </div>
 
   <div class="mb-5">

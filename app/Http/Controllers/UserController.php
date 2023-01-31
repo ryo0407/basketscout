@@ -31,8 +31,9 @@ class UserController extends Controller
         $pnew->main_position = $request->main_position;
         $pnew->strong_point = $request->strong_point;
         if(!empty($request->profile_photo)){
-            $file_name = $request->profile_photo->getClientOriginalName();
-            $pnew->profile_photo = $request->profile_photo->storeAs('',$file_name,'public');
+            $path = $request->profile_photo->store('public');
+            $file_name = basename($path);
+            $pnew->profile_photo = $file_name;
         };
         $pnew->save();
         
@@ -61,8 +62,9 @@ class UserController extends Controller
         $record->main_position = $request->main_position;
         $record->strong_point = $request->strong_point;
         if(!empty($request->profile_photo)){
-            $file_name = $request->profile_photo->getClientOriginalName();
-            $record->profile_photo = $request->profile_photo->storeAs('',$file_name,'public');
+            $path = $request->profile_photo->store('public');
+            $file_name = basename($path);
+            $record->profile_photo = $file_name;
         };
         $record->save();
         
@@ -111,5 +113,9 @@ public function editscoutform(CreateScout $request, $id) {
     return redirect()->route('posts.index');
 }
 
+public function mypage() {
+    $player = Playerinfo::where('user_id',Auth::id())->first();
 
+    return view('mypage.mypage')->with(['player' => $player]);
+}
 }
